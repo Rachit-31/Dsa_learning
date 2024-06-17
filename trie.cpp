@@ -21,12 +21,17 @@ class Trie{
     TrieNode* root;
 
 
+
+    Trie(){
+        root = new TrieNode('\n');
+    }
     void insertUtil( TrieNode* root, string word){
         // using recurrsion
         if(word.length()==0){
             root->isTerminal= true;
+            return ;
         }
-        // assumption: Wrod will be in caps
+        // assumption: word will be in caps
         int index= word[0]-'A';
 
         TrieNode* child;
@@ -44,13 +49,47 @@ class Trie{
         insertUtil(child, word.substr(1)); //1 ko ewxclude krke
     }
 
+    void insertWord( string word ){
+        insertUtil(root, word);
+    }
 
 
-void insertWord( string word ){
-    insertUtil(root, word);
-}
+
+    bool searchUtil(TrieNode* root, string word){
+        if(word.length()==0){
+            return root->isTerminal;
+        }
+        int index= word[0]-'A';
+
+        TrieNode* child;
+        if(root->children[index] != NULL){
+            child= root->children[index];
+        }
+        else{
+            return false;
+        }
+
+        return searchUtil(child, word.substr(1));
+    }
+    bool search(string word){
+        return searchUtil(root, word);
+    }
+
+
+
+    bool removeUtil(TrieNode* root, string word){
+        // will code later
+    }
+    void remove(string word){
+         removeUtil(root, word);
+    }
 };
 int main(){
-    cout<<"hello world"<<endl;
+    
+    Trie *t= new Trie();
+    t->insertWord("ABCD");
+
+    cout<<"Present or not "<< t->search("ABC")<<endl;
+
     return 0;
 }
